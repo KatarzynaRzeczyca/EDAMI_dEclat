@@ -106,8 +106,10 @@ def eclat(df: pd.DataFrame, min_support=1, min_length=1, verbose=False):
 
 
 if __name__ == "__main__":
-    data = pd.read_csv("input.csv", header=None)
-    frequent_itemsets = eclat(data, verbose=True, min_length=2, min_support=2)
+    # data = pd.read_csv("input.csv", header=None)
+    data = pd.read_csv("mushrooms.csv")
+    print(data)
+    frequent_itemsets = eclat(data, verbose=False, min_length=4, min_support=0)
     print("\nResult:")
     print(frequent_itemsets)
 
