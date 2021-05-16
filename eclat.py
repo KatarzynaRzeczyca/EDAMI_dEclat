@@ -112,6 +112,3 @@ if __name__ == "__main__":
     frequent_itemsets = eclat(data, verbose=False, min_length=4, min_support=0)
     print("\nResult:")
     print(frequent_itemsets)
-
-
-
