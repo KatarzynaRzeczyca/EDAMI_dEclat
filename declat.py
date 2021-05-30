@@ -1,5 +1,6 @@
 from eclat import Tidlist, is_different_in_last_item
 import pandas as pd
+from data_preprocessing import add_columns_numbers_to_attributes
 
 
 class Diffset(Tidlist):
@@ -37,6 +38,14 @@ class Diffset(Tidlist):
     def concatenate(self, another):
         for i in range(another.size):
             self.put_all_if_not_in_set(another.keys[i], another.values[i], another.support[i])
+
+    def __str__(self):
+        result = ""
+        for i in range(self.size):
+            result += ": ".join(['[' + ','.join(self.keys[i]) + ']' + '(' + str(self.support[i]) + ')',
+                                 ','.join(str(e) for e in self.values[i]) + "\n"])
+        result += "size: " + str(self.size)
+        return result
 
 
 def create_diffset_from_data(df: pd.DataFrame):
@@ -81,14 +90,18 @@ def compute_next_level(previous: Diffset):
     return next_level
 
 
-def declat(df: pd.DataFrame, min_support=1, min_length=1):
+def declat(df: pd.DataFrame, min_support=1, min_length=1, verbose=False):
     result = Diffset()
     diffsets_collection = create_diffset_from_data(df)
     itemset_length = 1
-    if diffsets_collection.size == 0:
+    if verbose and diffsets_collection.size == 0:
         raise ValueError('diffsets are empty')
     while diffsets_collection.size > 0:
+        if verbose:
+            print("Itemset length=" + str(itemset_length) + ":\n" + str(diffsets_collection))
         diffsets_collection.remove_not_frequent_items(min_support)
+        if verbose:
+            print("After reduction:\n" + str(diffsets_collection))
         if itemset_length >= min_length:
             result.concatenate(diffsets_collection)
         diffsets_collection = compute_next_level(diffsets_collection)
@@ -97,7 +110,10 @@ def declat(df: pd.DataFrame, min_support=1, min_length=1):
 
 
 if __name__ == "__main__":
-    data = pd.read_csv("mushrooms.csv")
-    frequent_itemsets = declat(data)
+    data = pd.read_csv("input.csv", header=None)
+    # data = pd.read_csv("mushrooms.csv")
+    # data = add_columns_numbers_to_attributes(data)
+    print(data)
+    frequent_itemsets = declat(data, verbose=True, min_length=1, min_support=1)
     print("\nResult:")
     print(frequent_itemsets)
