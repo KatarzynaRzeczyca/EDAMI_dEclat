@@ -1,4 +1,5 @@
 import pandas as pd
+from data_preprocessing import add_columns_numbers_to_attributes
 
 
 class Tidlist:
@@ -46,7 +47,8 @@ class Tidlist:
     def __str__(self):
         result = ""
         for i in range(self.size):
-            result += ": ".join(['[' + ','.join(self.keys[i]) + ']', ','.join(str(e) for e in self.values[i]) + "\n"])
+            result += ": ".join(['[' + ','.join(self.keys[i]) + ']' + '(' + str(len(self.values[i])) + ')',
+                                 ','.join(str(e) for e in self.values[i]) + "\n"])
         result += "size: " + str(self.size)
         return result
 
@@ -106,9 +108,10 @@ def eclat(df: pd.DataFrame, min_support=1, min_length=1, verbose=False):
 
 
 if __name__ == "__main__":
-    # data = pd.read_csv("input.csv", header=None)
-    data = pd.read_csv("mushrooms.csv")
+    data = pd.read_csv("input.csv", header=None)
+    # data = pd.read_csv("mushrooms.csv")
+    # data = add_columns_numbers_to_attributes(data)
     print(data)
-    frequent_itemsets = eclat(data, verbose=False, min_length=4, min_support=0)
+    frequent_itemsets = eclat(data, verbose=True, min_length=1, min_support=1)
     print("\nResult:")
     print(frequent_itemsets)
