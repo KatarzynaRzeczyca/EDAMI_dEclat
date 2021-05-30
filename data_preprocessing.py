@@ -1,5 +1,6 @@
 import re
 from textblob import TextBlob
+import pandas as pd
 
 
 def to_lowercase_word(word: str):
@@ -23,3 +24,9 @@ def extract_nouns(data: list, verbose=False):
             print(tweet)
             print(filtered_tags)
     return dataset
+
+
+def add_columns_numbers_to_attributes(data: pd.DataFrame):
+    for i, col in enumerate(data.columns):
+        data.iloc[:, i] = data.iloc[:, i].apply(lambda x: str(i) + x)
+    return data
