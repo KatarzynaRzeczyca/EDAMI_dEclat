@@ -39,6 +39,25 @@ class Diffset(Tidlist):
         for i in range(another.size):
             self.put_all_if_not_in_set(another.keys[i], another.values[i], another.support[i])
 
+    def concatenate_tidlist(self, another: Tidlist):
+        all_tid_set = set()
+        for id in range(another.size):
+            for v in another.values[id]:
+                all_tid_set.add(v)
+
+        for i in range(another.size):
+            if another.keys[i] not in self.keys:
+                self.keys.append(another.keys[i])
+                values = set()
+                for tid in all_tid_set:
+                    if tid not in another.values[i]:
+                        values.add(tid)
+                self.values.append(values)
+                self.support.append(len(another.values[i]))
+                self.size += 1
+            else:
+                raise ValueError('key cant occur in diffset')
+
     def __str__(self):
         result = ""
         for i in range(self.size):
@@ -91,9 +110,14 @@ def compute_next_level(previous: Diffset):
 
 
 def declat(df: pd.DataFrame, min_support=1, min_length=1, verbose=False):
-    result = Diffset()
     diffsets_collection = create_diffset_from_data(df)
-    itemset_length = 1
+    result_init = Diffset()
+    result = declat_from_diffsets(diffsets_collection, result_init, min_support, min_length, verbose)
+    return result
+
+
+def declat_from_diffsets(diffsets_collection: Diffset, result: Diffset, min_support=1, min_length=1, verbose=False):
+    itemset_length = len(diffsets_collection.keys[0])
     if verbose and diffsets_collection.size == 0:
         raise ValueError('diffsets are empty')
     while diffsets_collection.size > 0:
