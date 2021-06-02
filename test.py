@@ -1,8 +1,8 @@
 import unittest
 import pandas as pd
 
-
 from declat import create_diffset_from_data, Diffset, compute_next_level, declat
+from postdiffset import postdiffset
 
 
 class TestDiffList(unittest.TestCase):
@@ -46,4 +46,18 @@ class TestDiffList(unittest.TestCase):
         result = declat(data_frame)
         self.assertEqual(result.keys, prediction.keys)
         self.assertEqual(result.values, prediction.values)
+        self.assertEqual(result.support, prediction.support)
+
+    def test_postdiffset(self):
+        data = {'col1': [1, 2, 1], 'col2': [2, 3, 3], 'col3': [3, 4, 4]}
+        data_frame = pd.DataFrame(data=data)
+
+        prediction = Diffset()
+        prediction.keys = [[1], [2], [3], [4], [1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4], [1, 2, 3],
+                           [1, 3, 4], [2, 3, 4]]
+        prediction.support = [2, 2, 3, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1]
+
+        result = postdiffset(data_frame)
+
+        self.assertEqual(result.keys, prediction.keys)
         self.assertEqual(result.support, prediction.support)
