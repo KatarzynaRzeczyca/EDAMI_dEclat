@@ -1,5 +1,6 @@
 import pandas as pd
 import eclat as ec
+from data_preprocessing import add_columns_numbers_to_attributes
 
 from declat import Diffset, declat_from_diffsets
 from eclat import Tidlist, create_tidlist_from_data
@@ -62,6 +63,6 @@ if __name__ == "__main__":
     # data = pd.read_csv("mushrooms.csv")
     # data = add_columns_numbers_to_attributes(data)
     print(data)
-    frequent_itemsets = postdiffset(data, verbose=True, min_length=1, min_support=1)
+    frequent_itemsets = postdiffset(data, verbose=False, min_length=1, min_support=1)
     print("\nResult:")
     print(frequent_itemsets)
