@@ -8,6 +8,8 @@ import time
 import numpy as np
 import os
 
+from postdiffset import postdiffset
+
 
 def load_data(file: str, verbose=False):
     with open(file) as json_file:
@@ -49,8 +51,9 @@ def run_and_save_resource_test(dataset, n_of_tests, result_file_name_prefix: str
     result_eclat = run_n_of_tests(eclat, dataset, n_of_tests, verbose=verbose, min_length=min_length, min_support=min_support)
     print(20*'#', 'declat', 20*'#')
     result_declat = run_n_of_tests(declat, dataset, n_of_tests, verbose=verbose, min_length=min_length, min_support=min_support)
-    # result_postdiffset = run_n_of_tests(postdiffset, dataset, n_of_tests, verbose=verbose, **kwargs)
-    result = pd.concat([result_eclat.add_prefix('eclat_'), result_declat.add_prefix('declat_')], axis=1)
+    print(20 * '#', 'postdiffset', 20 * '#')
+    result_postdiffset = run_n_of_tests(postdiffset, dataset, n_of_tests, verbose=verbose, min_length=min_length, min_support=min_support)
+    result = pd.concat([result_eclat.add_prefix('eclat_'), result_declat.add_prefix('declat_'), result_postdiffset.add_prefix('postdiffset_')], axis=1)
     means = np.mean(result, axis=0)
     std_devs = np.std(result, axis=0)
     result.loc['mean', :] = means
