@@ -62,6 +62,19 @@ class Diffset(Tidlist):
         if index < self.size:
             return self.support[index]
 
+    def sort_by_support(self):
+        while True:
+            is_sorted = True
+            for i in range(self.size - 1):
+                if self.get_support(i) < self.get_support(i+1):
+                    is_sorted = False
+                    temp = self.keys[i], self.values[i], self.support[i]
+                    self.keys[i], self.values[i], self.support[i] =\
+                        self.keys[i+1], self.values[i+1], self.support[i+1]
+                    self.keys[i+1], self.values[i+1], self.support[i+1] = temp
+            if is_sorted:
+                break
+
     def __str__(self):
         result = ""
         for i in range(self.size):

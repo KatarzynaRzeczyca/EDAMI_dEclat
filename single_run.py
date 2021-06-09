@@ -10,7 +10,8 @@ if __name__ == "__main__":
     raw_dataset = extract_nouns(data)
     dataset = pd.DataFrame(raw_dataset)
     frequent_itemsets = declat(dataset, verbose=False, min_length=3, min_support=3)
-    number_of_items_to_present = 34
+    frequent_itemsets.sort_by_support()
+    number_of_items_to_present = 20
     iteration_range = min(number_of_items_to_present, frequent_itemsets.size)
     maximum_support = 0.0
     for i in range(iteration_range):
