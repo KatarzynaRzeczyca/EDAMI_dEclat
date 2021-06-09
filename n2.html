@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1000px;
+            height: 1000px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#08306b", "id": 0, "label": "6.11%", "shape": "dot", "size": 20.0}, {"color": "#00aa11", "id": "biden", "label": "biden", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "border", "label": "border", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "crisis", "label": "crisis", "shape": "dot", "size": 5.0}, {"color": "#4191c5", "id": 1, "label": "3.82%", "shape": "dot", "size": 12.500000000000002}, {"color": "#00aa11", "id": "harris", "label": "harris", "shape": "dot", "size": 5.0}, {"color": "#4191c5", "id": 2, "label": "3.82%", "shape": "dot", "size": 12.500000000000002}, {"color": "#00aa11", "id": "parisdennard", "label": "parisdennard", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "rnc", "label": "rnc", "shape": "dot", "size": 5.0}, {"color": "#4191c5", "id": 3, "label": "3.82%", "shape": "dot", "size": 12.500000000000002}, {"color": "#00aa11", "id": "national", "label": "national", "shape": "dot", "size": 5.0}, {"color": "#4191c5", "id": 4, "label": "3.82%", "shape": "dot", "size": 12.500000000000002}, {"color": "#00aa11", "id": "spokesperson", "label": "spokesperson", "shape": "dot", "size": 5.0}, {"color": "#4191c5", "id": 5, "label": "3.82%", "shape": "dot", "size": 12.500000000000002}, {"color": "#4191c5", "id": 6, "label": "3.82%", "shape": "dot", "size": 12.500000000000002}, {"color": "#4191c5", "id": 7, "label": "3.82%", "shape": "dot", "size": 12.500000000000002}, {"color": "#4191c5", "id": 8, "label": "3.82%", "shape": "dot", "size": 12.500000000000002}, {"color": "#6aadd5", "id": 9, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#6aadd5", "id": 10, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#00aa11", "id": "months", "label": "months", "shape": "dot", "size": 5.0}, {"color": "#6aadd5", "id": 11, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#00aa11", "id": "black", "label": "black", "shape": "dot", "size": 5.0}, {"color": "#6aadd5", "id": 12, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#6aadd5", "id": 13, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#6aadd5", "id": 14, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#6aadd5", "id": 15, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#6aadd5", "id": 16, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#6aadd5", "id": 17, "label": "3.05%", "shape": "dot", "size": 10.0}, {"color": "#9dc9e0", "id": 18, "label": "2.29%", "shape": "dot", "size": 7.5}, {"color": "#00aa11", "id": "country", "label": "country", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "men", "label": "men", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "women", "label": "women", "shape": "dot", "size": 5.0}, {"color": "#9dc9e0", "id": 19, "label": "2.29%", "shape": "dot", "size": 7.5}, {"color": "#00aa11", "id": "gopchairwoman", "label": "gopchairwoman", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "pelosi", "label": "pelosi", "shape": "dot", "size": 5.0}]);
+        edges = new vis.DataSet([{"from": "biden", "to": 0}, {"from": "border", "to": 0}, {"from": "crisis", "to": 0}, {"from": "biden", "to": 1}, {"from": "border", "to": 1}, {"from": "harris", "to": 1}, {"from": "biden", "to": 2}, {"from": "parisdennard", "to": 2}, {"from": "rnc", "to": 2}, {"from": "biden", "to": 3}, {"from": "national", "to": 3}, {"from": "parisdennard", "to": 3}, {"from": "biden", "to": 4}, {"from": "parisdennard", "to": 4}, {"from": "spokesperson", "to": 4}, {"from": "biden", "to": 5}, {"from": "national", "to": 5}, {"from": "rnc", "to": 5}, {"from": "biden", "to": 6}, {"from": "rnc", "to": 6}, {"from": "spokesperson", "to": 6}, {"from": "biden", "to": 7}, {"from": "national", "to": 7}, {"from": "spokesperson", "to": 7}, {"from": "border", "to": 8}, {"from": "crisis", "to": 8}, {"from": "harris", "to": 8}, {"from": "biden", "to": 9}, {"from": "crisis", "to": 9}, {"from": "harris", "to": 9}, {"from": "border", "to": 10}, {"from": "crisis", "to": 10}, {"from": "months", "to": 10}, {"from": "black", "to": 11}, {"from": "parisdennard", "to": 11}, {"from": "rnc", "to": 11}, {"from": "black", "to": 12}, {"from": "national", "to": 12}, {"from": "parisdennard", "to": 12}, {"from": "black", "to": 13}, {"from": "parisdennard", "to": 13}, {"from": "spokesperson", "to": 13}, {"from": "black", "to": 14}, {"from": "national", "to": 14}, {"from": "rnc", "to": 14}, {"from": "black", "to": 15}, {"from": "rnc", "to": 15}, {"from": "spokesperson", "to": 15}, {"from": "black", "to": 16}, {"from": "national", "to": 16}, {"from": "spokesperson", "to": 16}, {"from": "biden", "to": 17}, {"from": "border", "to": 17}, {"from": "crisis", "to": 17}, {"from": "harris", "to": 17}, {"from": "country", "to": 18}, {"from": "men", "to": 18}, {"from": "women", "to": 18}, {"from": "biden", "to": 19}, {"from": "gopchairwoman", "to": 19}, {"from": "pelosi", "to": 19}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

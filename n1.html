@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1000px;
+            height: 1000px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#08306b", "id": 0, "label": "7.55%", "shape": "dot", "size": 20.0}, {"color": "#00aa11", "id": "biden", "label": "biden", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "border", "label": "border", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "crisis", "label": "crisis", "shape": "dot", "size": 5.0}, {"color": "#2070b4", "id": 1, "label": "5.66%", "shape": "dot", "size": 15.0}, {"color": "#00aa11", "id": "gopchairwoman", "label": "gopchairwoman", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "pelosi", "label": "pelosi", "shape": "dot", "size": 5.0}, {"color": "#2070b4", "id": 2, "label": "5.66%", "shape": "dot", "size": 15.0}, {"color": "#00aa11", "id": "immigration", "label": "immigration", "shape": "dot", "size": 5.0}, {"color": "#2070b4", "id": 3, "label": "5.66%", "shape": "dot", "size": 15.0}, {"color": "#00aa11", "id": "michigan", "label": "michigan", "shape": "dot", "size": 5.0}, {"color": "#00aa11", "id": "whitmer", "label": "whitmer", "shape": "dot", "size": 5.0}, {"color": "#2070b4", "id": 4, "label": "5.66%", "shape": "dot", "size": 15.0}, {"color": "#00aa11", "id": "months", "label": "months", "shape": "dot", "size": 5.0}]);
+        edges = new vis.DataSet([{"from": "biden", "to": 0}, {"from": "border", "to": 0}, {"from": "crisis", "to": 0}, {"from": "biden", "to": 1}, {"from": "gopchairwoman", "to": 1}, {"from": "pelosi", "to": 1}, {"from": "biden", "to": 2}, {"from": "border", "to": 2}, {"from": "immigration", "to": 2}, {"from": "gopchairwoman", "to": 3}, {"from": "michigan", "to": 3}, {"from": "whitmer", "to": 3}, {"from": "border", "to": 4}, {"from": "crisis", "to": 4}, {"from": "months", "to": 4}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
