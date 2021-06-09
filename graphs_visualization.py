@@ -28,15 +28,18 @@ class FaPlot:
         self.min_node_size = min_node_size
         self.item_node_size = item_node_size
         self.maximum_support = maximum_support
+        self.itemset_index = 0
 
     def add_item(self, list_of_items, relative_support):
+        node_id = self.itemset_index
+        self.itemset_index += 1
         node_name = '{0:.2f}'.format(relative_support * 100) + '%'
         node_size = max(relative_support * 20 / self.maximum_support, self.min_node_size)
         node_color = get_color_from_palette(self.palette, relative_support / self.maximum_support)
-        self.net.add_node(node_name, size=node_size, color=node_color)
+        self.net.add_node(node_id, label=node_name, size=node_size, color=node_color)
         for item in list_of_items:
             self.net.add_node(item, size=self.item_node_size, color=self.item_color)
-            self.net.add_edge(item, node_name)
+            self.net.add_edge(item, node_id)
 
     def show_graph(self, file_name='nx.html'):
         self.net.show(file_name)

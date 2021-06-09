@@ -1,5 +1,6 @@
 import pandas as pd
 from data_preprocessing import add_columns_numbers_to_attributes
+from graphs_visualization import FaPlot
 
 
 class Tidlist:
@@ -29,6 +30,14 @@ class Tidlist:
             return self.values[self.keys.index(key)]
         else:
             return {}
+
+    def get_support(self, index):
+        if index < self.size:
+            return len(self.values[index])
+
+    def get_key(self, index):
+        if index < self.size:
+            return self.keys[index]
 
     def remove_not_frequent_items(self, min_sup):
         indexes_of_items_to_remove = []
@@ -113,5 +122,14 @@ if __name__ == "__main__":
     # data = add_columns_numbers_to_attributes(data)
     print(data)
     frequent_itemsets = eclat(data, verbose=True, min_length=1, min_support=1)
+    maximum_support = 0.0
+    for i in range(frequent_itemsets.size):
+        if maximum_support < frequent_itemsets.get_support(i):
+            maximum_support = frequent_itemsets.get_support(i)
+    maximum_support = maximum_support / frequent_itemsets.size
+    graph_plot = FaPlot(maximum_support=maximum_support)
+    for i in range(frequent_itemsets.size):
+        graph_plot.add_item(frequent_itemsets.get_key(i), frequent_itemsets.get_support(i) / frequent_itemsets.size)
+    graph_plot.show_graph()
     print("\nResult:")
     print(frequent_itemsets)

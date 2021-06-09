@@ -58,6 +58,10 @@ class Diffset(Tidlist):
             else:
                 raise ValueError('key cant occur in diffset')
 
+    def get_support(self, index):
+        if index < self.size:
+            return self.support[index]
+
     def __str__(self):
         result = ""
         for i in range(self.size):
