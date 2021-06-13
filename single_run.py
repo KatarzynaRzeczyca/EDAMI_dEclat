@@ -11,7 +11,7 @@ if __name__ == "__main__":
     dataset = pd.DataFrame(raw_dataset)
     frequent_itemsets = declat(dataset, verbose=False, min_length=3, min_support=3)
     frequent_itemsets.sort_by_support()
-    number_of_items_to_present = 20
+    number_of_items_to_present = 50
     iteration_range = min(number_of_items_to_present, frequent_itemsets.size)
     maximum_support = 0.0
     for i in range(iteration_range):
@@ -21,5 +21,5 @@ if __name__ == "__main__":
     graph_plot = FaPlot(maximum_support=maximum_support)
     for i in range(iteration_range):
         graph_plot.add_item(frequent_itemsets.get_key(i), frequent_itemsets.get_support(i) / dataset.shape[0])
-    graph_plot.show_graph('n2.html')
+    graph_plot.show_graph('n3.html')
     print(frequent_itemsets)
